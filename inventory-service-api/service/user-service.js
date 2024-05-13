@@ -66,25 +66,23 @@ class UserService {
   }
   async refresh(refreshToken) {
     if (!refreshToken) {
-      throw ApiError.UnauthorizeError();
+      throw ApiError.UnauthorizedError();
     }
     const userData = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
-      throw ApiError.UnauthorizeError();
+      throw ApiError.UnauthorizedError();
     }
-    const user = await UserModel.findByID(userData.id)
+    const user = await UserModel.findById(userData.id);
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
+
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
-    return {
-      ...tokens,
-      user: userDto,
-    };
+    return { ...tokens, user: userDto };
   }
   async getAllUsers() {
-    const users = await UserModel.find()
-    return users
+    const users = await UserModel.find();
+    return users;
   }
 }
 module.exports = new UserService();
