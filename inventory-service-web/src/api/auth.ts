@@ -6,10 +6,12 @@ const $auth = axios.create({
   withCredentials: true,
   baseURL: API_URL,
 });
+
 $auth.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
   return config;
 });
+
 $auth.interceptors.response.use(
   (config) => {
     return config;
@@ -35,4 +37,5 @@ $auth.interceptors.response.use(
     throw error;
   }
 );
+
 export default $auth;

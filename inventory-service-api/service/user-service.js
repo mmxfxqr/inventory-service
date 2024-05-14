@@ -68,18 +68,23 @@ class UserService {
     if (!refreshToken) {
       throw ApiError.UnauthorizedError();
     }
+    console.log("Validating refresh token:", refreshToken);
     const userData = tokenService.validateRefreshToken(refreshToken);
+    console.log("User data from token:", userData);
     const tokenFromDb = await tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }
     const user = await UserModel.findById(userData.id);
+    if (!user) {
+      throw ApiError.UnauthorizedError();
+    }
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
-
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };
   }
+
   async getAllUsers() {
     const users = await UserModel.find();
     return users;

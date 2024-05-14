@@ -8,6 +8,7 @@ import { AuthResponse } from "../services/Auth/AuthResponse";
 export default class UserStore {
   user = {} as IUser;
   isAuth = false;
+  isLoading = false;
   constructor() {
     makeAutoObservable(this);
   }
@@ -17,6 +18,9 @@ export default class UserStore {
   setUser(user: IUser) {
     this.user = user;
   }
+  setLoading(bool: boolean) {
+    this.isLoading = bool;
+}
   async login(email: string, password: string) {
     try {
       const response = await AuthService.login(email, password);
@@ -51,16 +55,17 @@ export default class UserStore {
     }
   }
   async checkAuth() {
+    this.setLoading(true);
     try {
-      const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
-        withCredentials: true,
-      });
-      console.log(response);
-      localStorage.setItem("token", response.data.accessToken);
-      this.setAuth(true);
-      this.setUser(response.data.user);
+        const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
+        console.log(response);
+        localStorage.setItem('token', response.data.accessToken);
+        this.setAuth(true);
+        this.setUser(response.data.user);
     } catch (e) {
-      console.log(e.response?.data?.message);
+        console.log(e.response?.data?.message);
+    } finally {
+        this.setLoading(false);
     }
-  }
+}
 }
