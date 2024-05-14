@@ -1,0 +1,12 @@
+.mainFormContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Задает высоту контейнера на всю высоту экрана */
+    
+}
+.mainForm {
+    width: 100%;
+    max-width: 450px; /* Задает максимальную ширину формы */
+
+}

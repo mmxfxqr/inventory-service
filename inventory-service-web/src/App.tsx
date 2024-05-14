@@ -8,7 +8,7 @@ import { observer } from "mobx-react-lite";
 
 function App() {
   return (
-    <div>
+    <div className={"main-container"}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />} />
