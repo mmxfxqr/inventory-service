@@ -7,7 +7,7 @@ import { Button } from "react-bootstrap";
 import { IUser } from "../services/Auth/User";
 import AuthService from "../services/Auth/AuthService";
 import NavBar from "./NavBar";
-import ThemeToggle from "./ThemeTogler";
+
 
 const MainPage: FC = () => {
   const { userStore } = useContext(Context);
