@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from "react";
 import { Context } from "../main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Form, Button } from "react-bootstrap";
 import s from "../styles/Login.module.css"
@@ -8,10 +8,11 @@ const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { userStore } = useContext(Context);
-
+  let navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     await userStore.login(email, password);
+    navigate('/')
   };
 
   return (

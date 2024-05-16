@@ -1,0 +1,12 @@
+.dropDown {
+    margin-left: 10px;
+}
+
+.signedText {
+    margin-left: 30px;
+}
+
+.brandLink {
+    color: inherit; /* Сброс цвета ссылки */
+    text-decoration: none; /* Убирает подчеркивание */
+}
