@@ -16,6 +16,8 @@ const NavBar: FC = () => {
   const { userStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
 
+  // Создайте переменную для класса, который будет зависеть от текущей темы
+
   return (
     <Navbar
       bg={theme === Theme.DARK ? "dark" : "light"}
@@ -23,20 +25,22 @@ const NavBar: FC = () => {
     >
       <Container>
         <Navbar.Brand>
-          <Link to={"/"} className={s.brandLink}>Inventory-Service</Link>
+          <Link to={"/"} className={s.brandLink}>
+            Inventory-Service
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <ThemeToggle />
           <Navbar.Text className={s.signedText}>Signed in as:</Navbar.Text>
           <NavDropdown
-            className={`${s.dropDown} dropdown-menu-right`}
             title={userStore.user.email}
             id="basic-nav-dropdown"
             align="end"
+            menuVariant={theme === Theme.DARK ? "dark" : "light"}
+            
           >
             <NavDropdown.Item
-              className="justify-content-end"
               onClick={() => userStore.logout()}
             >
               Logout

@@ -9,6 +9,7 @@ export default class UserStore {
   user = {} as IUser;
   isAuth = false;
   isLoading = false;
+  error = "";
   constructor() {
     makeAutoObservable(this);
   }
@@ -20,7 +21,10 @@ export default class UserStore {
   }
   setLoading(bool: boolean) {
     this.isLoading = bool;
-}
+  }
+  setError(string: string) {
+    this.error = string;
+  }
   async login(email: string, password: string) {
     try {
       const response = await AuthService.login(email, password);
@@ -28,8 +32,10 @@ export default class UserStore {
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
+      this.setError("");
     } catch (e) {
       console.log(e.response?.data?.message);
+      this.setError(e.response?.data?.message);
     }
   }
   async registration(email: string, password: string) {
@@ -39,8 +45,11 @@ export default class UserStore {
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
+      this.setError("");
     } catch (e) {
+      this.setAuth(false)
       console.log(e.response?.data?.message);
+      this.setError(e.response?.data?.message);
     }
   }
 
@@ -50,22 +59,28 @@ export default class UserStore {
       localStorage.removeItem("token");
       this.setAuth(false);
       this.setUser({} as IUser);
+      this.setError("");
     } catch (e) {
       console.log(e.response?.data?.message);
+      this.setError(e.response?.data?.message);
     }
   }
   async checkAuth() {
     this.setLoading(true);
     try {
-        const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
-        console.log(response);
-        localStorage.setItem('token', response.data.accessToken);
-        this.setAuth(true);
-        this.setUser(response.data.user);
+      const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
+        withCredentials: true,
+      });
+      console.log(response);
+      localStorage.setItem("token", response.data.accessToken);
+      this.setAuth(true);
+      this.setUser(response.data.user);
+      this.setError("");
     } catch (e) {
-        console.log(e.response?.data?.message);
+      console.log(e.response?.data?.message);
+      this.setError(e.response?.data?.message);
     } finally {
-        this.setLoading(false);
+      this.setLoading(false);
     }
-}
+  }
 }

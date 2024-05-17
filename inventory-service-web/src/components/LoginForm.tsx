@@ -2,8 +2,8 @@ import React, { FC, useContext, useState } from "react";
 import { Context } from "../main";
 import { Link, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { Form, Button } from "react-bootstrap";
-import s from "../styles/Login.module.css"
+import { Form, Button, Alert } from "react-bootstrap";
+import s from "../styles/Login.module.css";
 const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -12,7 +12,7 @@ const LoginForm: FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     await userStore.login(email, password);
-    navigate('/')
+    navigate("/");
   };
 
   return (
@@ -26,7 +26,6 @@ const LoginForm: FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -38,13 +37,22 @@ const LoginForm: FC = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
+        {userStore.error && ( 
+          <Alert className={s.customAlert} variant="danger">
+            {userStore.error}
+          </Alert>
+        )}
 
-        <Button variant="primary" type="submit">
-          Sign-In
-        </Button>
-      <div className="mt-3">
-        <Link to="/registration">Sign-Up</Link>
-      </div>
+        <div className={`${s.formFooter}`}>
+          <div className="mt-3">
+            <Link to="/registration" className={`${s.linkLogin} `}>
+              Don't you have an account yet?
+            </Link>
+          </div>
+          <Button variant="success" type="submit" className={s.submitBtn}>
+            Sign-In
+          </Button>
+        </div>
       </Form>
     </div>
   );

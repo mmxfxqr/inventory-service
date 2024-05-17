@@ -1,7 +1,7 @@
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useState, useEffect } from "react";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import s from "../styles/Login.module.css";
 
@@ -10,10 +10,13 @@ const RegistrationForm: FC = () => {
   const [password, setPassword] = useState<string>("");
   const { userStore } = useContext(Context);
   let navigate = useNavigate();
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     await userStore.registration(email, password);
-    navigate("/");
+    if (userStore.isAuth) {
+      navigate("/");
+    }
   };
 
   return (
@@ -39,11 +42,20 @@ const RegistrationForm: FC = () => {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Sign-Up
-        </Button>
-        <div className="mt-3">
-          <Link to="/login">Sign-In</Link>
+        {userStore.error && (
+          <Alert className={s.customAlert} variant="danger">
+            {userStore.error}
+          </Alert>
+        )}
+        <div className={`${s.formFooter}`}>
+          <div className="mt-3">
+            <Link to="/login" className={s.linkLogin}>
+              You already have an account?
+            </Link>
+          </div>
+          <Button variant="success" type="submit" className={s.submitBtn}>
+            Sign-Up
+          </Button>
         </div>
       </Form>
     </div>
