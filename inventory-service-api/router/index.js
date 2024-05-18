@@ -22,8 +22,8 @@ router.get("/activate/:link", userController.activate);
 router.get("/refresh", userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
 // Department routes
-router.post("/departments", authMiddleware, departmentController.create);
-router.get("/departments", authMiddleware, departmentController.getAll);
+router.post("/departments",  departmentController.create);
+router.get("/departments",  departmentController.getAll);
 router.get("/departments/:id", authMiddleware, departmentController.getOne);
 router.put("/departments/:id", authMiddleware, departmentController.update);
 router.delete("/departments/:id", authMiddleware, departmentController.delete);

@@ -1,0 +1,31 @@
+/* NavBlock.css */
+.navBlock {
+  display: flex;
+  justify-content: center;
+  margin-right: 70px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.navBlock a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.navBlock a:hover,
+.navBlock a:focus {
+  color: #88bfec !important;
+}
+
+.navBlock a.active {
+  color: #4682b4 !important; /* Цвет активной ссылки */
+}
+
+.svg {
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
+  fill: currentColor !important;
+}

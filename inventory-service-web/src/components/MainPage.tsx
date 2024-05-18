@@ -7,10 +7,12 @@ import { Alert, Button, Toast, ToastContainer } from "react-bootstrap";
 import { IUser } from "../services/Auth/User";
 import AuthService from "../services/Auth/AuthService";
 import NavBar from "./NavBar";
+import s from "../styles/MainPage.module.css";
 import {
   Theme,
   ThemeContext,
 } from "../services/ThemeProvider/lib/ThemeContext";
+import NavigateBlock from "./NavigateBlock";
 
 const MainPage: FC = () => {
   const { userStore } = useContext(Context);
@@ -47,6 +49,15 @@ const MainPage: FC = () => {
   return (
     <div>
       <NavBar />
+      <div className={s.contentBlock}>
+        <NavigateBlock />
+        <div className={s.btnBlock}>
+          <Button onClick={getUsers}>Получить Пользователей</Button>
+          {users.map((user) => (
+            <div key={user.email}>{user.email}</div>
+          ))}
+        </div>
+      </div>
       {userStore.user.isActivated ? (
         ""
       ) : (
@@ -56,7 +67,7 @@ const MainPage: FC = () => {
           style={{ zIndex: 1 }}
         >
           <Toast bg={theme === Theme.DARK ? "dark" : "light"}>
-            <Toast.Header  closeButton={false}>
+            <Toast.Header closeButton={false}>
               <strong className="rounded ">Inventory-Service</strong>
             </Toast.Header>
             <Toast.Body
@@ -67,10 +78,6 @@ const MainPage: FC = () => {
           </Toast>
         </ToastContainer>
       )}
-      <Button onClick={getUsers}>Получить Пользователей</Button>
-      {users.map((user) => (
-        <div key={user.email}>{user.email}</div>
-      ))}
     </div>
   );
 };

@@ -1,0 +1,9 @@
+.contentBlock {
+  display: flex;
+  align-items: flex-start; 
+}
+.btnBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+}

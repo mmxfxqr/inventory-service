@@ -10,18 +10,20 @@ import {
 } from "../services/ThemeProvider/lib/ThemeContext";
 import ThemeToggle from "./ThemeTogler";
 import s from "../styles/NavBar.module.css";
-import { NavDropdown } from "react-bootstrap";
+import { Nav, NavDropdown } from "react-bootstrap";
 
 const NavBar: FC = () => {
   const { userStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
 
-  // Создайте переменную для класса, который будет зависеть от текущей темы
+  // Определение класса для темы
+  const themeClass = theme === Theme.DARK ? "dark-theme" : "light-theme";
 
   return (
     <Navbar
       bg={theme === Theme.DARK ? "dark" : "light"}
       variant={theme === Theme.DARK ? "dark" : "light"}
+      className={themeClass}
     >
       <Container>
         <Navbar.Brand>
@@ -38,11 +40,8 @@ const NavBar: FC = () => {
             id="basic-nav-dropdown"
             align="end"
             menuVariant={theme === Theme.DARK ? "dark" : "light"}
-            
           >
-            <NavDropdown.Item
-              onClick={() => userStore.logout()}
-            >
+            <NavDropdown.Item onClick={() => userStore.logout()}>
               Logout
             </NavDropdown.Item>
           </NavDropdown>
