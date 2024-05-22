@@ -7,7 +7,7 @@ const EmployeeSchema = new Schema({
     ref: "Department",
     required: true,
   },
-  workplace: { type: Schema.Types.ObjectId, ref: "Workplace" },
+  workplace: { type: Schema.Types.ObjectId, ref: "Workplace", required: true },
 });
 
 module.exports = model("Employee", EmployeeSchema);

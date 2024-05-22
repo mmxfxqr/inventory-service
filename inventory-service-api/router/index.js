@@ -22,25 +22,25 @@ router.get("/activate/:link", userController.activate);
 router.get("/refresh", userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
 // Department routes
-router.post("/departments",  departmentController.create);
-router.get("/departments",  departmentController.getAll);
-router.get("/departments/:id", authMiddleware, departmentController.getOne);
-router.put("/departments/:id", authMiddleware, departmentController.update);
-router.delete("/departments/:id", authMiddleware, departmentController.delete);
+router.post("/departments", departmentController.create);
+router.get("/departments", departmentController.getAll);
+router.get("/departments/:id", departmentController.getOne);
+router.put("/departments/:id", departmentController.update);
+router.delete("/departments/:id", departmentController.delete);
 
 // Workplace routes
-router.post("/workplaces", authMiddleware, workplaceController.create);
-router.get("/workplaces", authMiddleware, workplaceController.getAll);
-router.get("/workplaces/:id", authMiddleware, workplaceController.getOne);
-router.put("/workplaces/:id", authMiddleware, workplaceController.update);
-router.delete("/workplaces/:id", authMiddleware, workplaceController.delete);
+router.post("/workplaces", workplaceController.create);
+router.get("/workplaces", workplaceController.getAll);
+router.get("/workplaces/:id", workplaceController.getOne);
+router.put("/workplaces/:id", workplaceController.update);
+router.delete("/workplaces/:id", workplaceController.delete);
 
 // Employee routes
-router.post("/employees", authMiddleware, employeeController.create);
-router.get("/employees", authMiddleware, employeeController.getAll);
-router.get("/employees/:id", authMiddleware, employeeController.getOne);
-router.put("/employees/:id", authMiddleware, employeeController.update);
-router.delete("/employees/:id", authMiddleware, employeeController.delete);
+router.post("/employees", employeeController.create);
+router.get("/employees", employeeController.getAll);
+router.get("/employees/:id", employeeController.getOne);
+router.put("/employees/:id", employeeController.update);
+router.delete("/employees/:id", employeeController.delete);
 
 // Computer routes
 router.post("/computers", authMiddleware, computerController.create);

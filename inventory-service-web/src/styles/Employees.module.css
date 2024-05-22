@@ -1,0 +1,8 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; 
+  }
+  .table{
+    max-width: 1030px;
+  }
