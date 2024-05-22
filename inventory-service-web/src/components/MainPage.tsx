@@ -51,12 +51,13 @@ const MainPage: FC = () => {
       <NavBar />
       <div className={s.contentBlock}>
         <NavigateBlock />
-        <div className={s.btnBlock}>
+        {/* <div className={s.btnBlock}>
           <Button onClick={getUsers}>Получить Пользователей</Button>
           {users.map((user) => (
             <div key={user.email}>{user.email}</div>
           ))}
-        </div>
+        </div> */}
+        <h1>Выберите раздел из навигационного меню</h1>
       </div>
       {userStore.user.isActivated ? (
         ""

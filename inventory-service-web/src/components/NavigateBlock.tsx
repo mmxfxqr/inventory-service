@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import comp from "../assets/navigIcons/comp.svg";
 import depart from "../assets/navigIcons/depart.svg";
 import employee from "../assets/navigIcons/employee.svg";
@@ -10,67 +10,59 @@ import workplace from "../assets/navigIcons/workplace.svg";
 import "../styles/NavBlock.css";
 
 const NavigateBlock = () => {
-  const [activeLink, setActiveLink] = useState("");
-
-  const handleClick = (link: string) => {
-    setActiveLink(link);
-  };
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   return (
     <Nav className={"flex-column navBlock"}>
       <Nav.Link
         as={Link}
-        to={"#"}
-        className={activeLink === "departments" ? "active" : ""}
-        onClick={() => handleClick("departments")}
+        to={"/departments"}
+        className={currentPath === "/departments" ? "active" : ""}
       >
-        Departments
         <img src={depart} className="svg" />
+        Departments
       </Nav.Link>
       <Nav.Link
         as={Link}
-        to={"#"}
-        className={activeLink === "workplaces" ? "active" : ""}
-        onClick={() => handleClick("workplaces")}
+        to={"/workplaces"}
+        className={currentPath === "/workplaces" ? "active" : ""}
       >
-        Workplaces
         <img src={workplace} className="svg" />
+        Workplaces
       </Nav.Link>
       <Nav.Link
         as={Link}
-        to={"#"}
-        className={activeLink === "employees" ? "active" : ""}
-        onClick={() => handleClick("employees")}
+        to={"/employees"}
+        className={currentPath === "/employees" ? "active" : ""}
       >
-        Employees
         <img src={employee} className="svg" />
+        Employees
       </Nav.Link>
       <Nav.Link
         as={Link}
-        to={"#"}
-        className={activeLink === "computers" ? "active" : ""}
-        onClick={() => handleClick("computers")}
+        to={"/computers"}
+        className={currentPath === "/computers" ? "active" : ""}
       >
-        Computers
         <img src={comp} className="svg" />
+        Computers
       </Nav.Link>
       <Nav.Link
         as={Link}
-        to={"#"}
-        className={activeLink === "components" ? "active" : ""}
-        onClick={() => handleClick("components")}
+        to={"/components"}
+        className={currentPath === "/components" ? "active" : ""}
       >
-        Components
         <img src={component} className="svg" />
+        Components
       </Nav.Link>
       <Nav.Link
         as={Link}
-        to={"#"}
-        className={activeLink === "peripheral-devices" ? "active" : ""}
-        onClick={() => handleClick("peripheral-devices")}
+        to={"/peripheral"}
+        className={currentPath === "/peripheral" ? "active" : ""}
       >
-        Peripheral-Devices
+        {" "}
         <img src={mouse} className="svg" />
+        Peripheral
       </Nav.Link>
     </Nav>
   );
