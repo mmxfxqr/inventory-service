@@ -13,6 +13,7 @@ import {
   ThemeContext,
 } from "../services/ThemeProvider/lib/ThemeContext";
 import NavigateBlock from "./NavigateBlock";
+import ToastAlert from "./ToastAlert";
 
 const MainPage: FC = () => {
   const { userStore } = useContext(Context);
@@ -59,26 +60,7 @@ const MainPage: FC = () => {
         </div> */}
         <h1>Выберите раздел из навигационного меню</h1>
       </div>
-      {userStore.user.isActivated ? (
-        ""
-      ) : (
-        <ToastContainer
-          position="bottom-end"
-          className="p-3"
-          style={{ zIndex: 1 }}
-        >
-          <Toast bg={theme === Theme.DARK ? "dark" : "light"}>
-            <Toast.Header closeButton={false}>
-              <strong className="rounded ">Inventory-Service</strong>
-            </Toast.Header>
-            <Toast.Body
-              style={{ color: theme === Theme.DARK ? "white" : "black" }}
-            >
-              Подтвердите вашу электронную почту.
-            </Toast.Body>
-          </Toast>
-        </ToastContainer>
-      )}
+      <ToastAlert/>
     </div>
   );
 };

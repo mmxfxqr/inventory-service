@@ -8,16 +8,37 @@ import {
   Theme,
   ThemeContext,
 } from "../services/ThemeProvider/lib/ThemeContext";
-import { Table } from "react-bootstrap";
+import { Spinner, Table } from "react-bootstrap";
+import LoginForm from "./LoginForm";
+import ToastAlert from "./ToastAlert";
 
 const Workplaces: FC = () => {
   const { workplacesStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
-
+  const { userStore } = useContext(Context);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      userStore.checkAuth();
+    }
+  }, [userStore]);
   useEffect(() => {
     workplacesStore.fetchWorkplaces();
   }, [workplacesStore]);
 
+  if (userStore.isLoading) {
+    return (
+      <div className={s.spinerCon}>
+        <Spinner animation="border" />
+      </div>
+    );
+  }
+  if (!userStore.isAuth) {
+    return (
+      <div>
+        <LoginForm />
+      </div>
+    );
+  }
   const tableVariant = theme === Theme.DARK ? "dark" : "light";
 
   return (
@@ -53,6 +74,7 @@ const Workplaces: FC = () => {
           </Table>
         </div>
       </div>
+      <ToastAlert />
     </div>
   );
 };

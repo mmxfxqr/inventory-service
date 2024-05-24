@@ -3,17 +3,42 @@ import React, { FC, useContext, useEffect } from "react";
 import NavBar from "./NavBar";
 import NavigateBlock from "./NavigateBlock";
 import s from "../styles/Employees.module.css";
-import { Table } from "react-bootstrap";
+import { Button, Spinner, Table } from "react-bootstrap";
 import { Context } from "../main";
-import { Theme, ThemeContext } from "../services/ThemeProvider/lib/ThemeContext";
+import {
+  Theme,
+  ThemeContext,
+} from "../services/ThemeProvider/lib/ThemeContext";
+import { useNavigate } from "react-router-dom";
+import LoginForm from "./LoginForm";
+import ToastAlert from "./ToastAlert";
 const Employees: FC = () => {
   const { employeesStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
-
+  const { userStore } = useContext(Context);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      userStore.checkAuth();
+    }
+  }, [userStore]);
   useEffect(() => {
     employeesStore.fetchWorkplaces();
   }, [employeesStore]);
 
+  if (userStore.isLoading) {
+    return (
+      <div className={s.spinerCon}>
+        <Spinner animation="border" />
+      </div>
+    );
+  }
+  if (!userStore.isAuth) {
+    return (
+      <div>
+        <LoginForm />
+      </div>
+    );
+  }
   const tableVariant = theme === Theme.DARK ? "dark" : "light";
   return (
     <div>
@@ -21,7 +46,7 @@ const Employees: FC = () => {
       <div className={` ${s.content}`}>
         <NavigateBlock />
         <div className="container">
-          <h2>Workplaces</h2>
+          <h2>Employees</h2>
           <Table
             striped
             bordered
@@ -50,6 +75,7 @@ const Employees: FC = () => {
           </Table>
         </div>
       </div>
+      <ToastAlert />
     </div>
   );
 };

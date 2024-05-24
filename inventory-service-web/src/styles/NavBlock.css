@@ -1,7 +1,6 @@
 /* NavBlock.css */
 .navBlock {
   display: flex;
-  justify-content: center;
   margin-right: 70px;
   color: inherit;
   text-decoration: none;

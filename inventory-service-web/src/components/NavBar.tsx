@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Theme,
   ThemeContext,
@@ -15,7 +15,7 @@ import { Nav, NavDropdown } from "react-bootstrap";
 const NavBar: FC = () => {
   const { userStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
-
+const navigate = useNavigate()
   // Определение класса для темы
   const themeClass = theme === Theme.DARK ? "dark-theme" : "light-theme";
 
@@ -41,7 +41,7 @@ const NavBar: FC = () => {
             align="end"
             menuVariant={theme === Theme.DARK ? "dark" : "light"}
           >
-            <NavDropdown.Item onClick={() => userStore.logout()}>
+            <NavDropdown.Item onClick={() => userStore.logout(navigate)}>
               Logout
             </NavDropdown.Item>
           </NavDropdown>

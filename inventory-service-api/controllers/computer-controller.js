@@ -1,5 +1,8 @@
 const Computer = require("../models/computer-model");
 const ApiError = require("../exceptions/api-error");
+const PeripheralDevice = require("../models/peripheral-model");
+const Component = require("../models/component-model");
+const Workplace = require("../models/workplace-model");
 
 class ComputerController {
   async create(req, res, next) {
@@ -10,7 +13,12 @@ class ComputerController {
           'Поля "Имя" и "Рабочее место" обязательны для заполнения'
         );
       }
-      const computer = new Computer({ name, workplace, components, peripherals });
+      const computer = new Computer({
+        name,
+        workplace,
+        components,
+        peripherals,
+      });
       await computer.save();
       return res.json(computer);
     } catch (e) {

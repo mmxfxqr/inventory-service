@@ -16,31 +16,31 @@ router.post(
   userController.registration
 );
 // User routes
-router.post("/login", userController.login);
-router.post("/logout", userController.logout);
-router.get("/activate/:link", userController.activate);
-router.get("/refresh", userController.refresh);
+router.post("/login",  userController.login);
+router.post("/logout",  userController.logout);
+router.get("/activate/:link",  userController.activate);
+router.get("/refresh",  userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
 // Department routes
-router.post("/departments", departmentController.create);
-router.get("/departments", departmentController.getAll);
-router.get("/departments/:id", departmentController.getOne);
-router.put("/departments/:id", departmentController.update);
-router.delete("/departments/:id", departmentController.delete);
+router.post("/departments", authMiddleware, departmentController.create);
+router.get("/departments", authMiddleware, departmentController.getAll);
+router.get("/departments/:id", authMiddleware, departmentController.getOne);
+router.put("/departments/:id", authMiddleware, departmentController.update);
+router.delete("/departments/:id", authMiddleware, departmentController.delete);
 
 // Workplace routes
-router.post("/workplaces", workplaceController.create);
-router.get("/workplaces", workplaceController.getAll);
-router.get("/workplaces/:id", workplaceController.getOne);
-router.put("/workplaces/:id", workplaceController.update);
-router.delete("/workplaces/:id", workplaceController.delete);
+router.post("/workplaces", authMiddleware, workplaceController.create);
+router.get("/workplaces", authMiddleware, workplaceController.getAll);
+router.get("/workplaces/:id", authMiddleware, workplaceController.getOne);
+router.put("/workplaces/:id", authMiddleware, workplaceController.update);
+router.delete("/workplaces/:id", authMiddleware, workplaceController.delete);
 
 // Employee routes
-router.post("/employees", employeeController.create);
-router.get("/employees", employeeController.getAll);
-router.get("/employees/:id", employeeController.getOne);
-router.put("/employees/:id", employeeController.update);
-router.delete("/employees/:id", employeeController.delete);
+router.post("/employees", authMiddleware, employeeController.create);
+router.get("/employees", authMiddleware, employeeController.getAll);
+router.get("/employees/:id", authMiddleware, employeeController.getOne);
+router.put("/employees/:id", authMiddleware, employeeController.update);
+router.delete("/employees/:id", authMiddleware, employeeController.delete);
 
 // Computer routes
 router.post("/computers", authMiddleware, computerController.create);
@@ -57,7 +57,7 @@ router.put("/components/:id", authMiddleware, componentController.update);
 router.delete("/components/:id", authMiddleware, componentController.delete);
 
 // Peripheral routes
-router.post("/peripherals", authMiddleware, peripheralController.create);
+router.post("/  ", authMiddleware, peripheralController.create);
 router.get("/peripherals", authMiddleware, peripheralController.getAll);
 router.get("/peripherals/:id", authMiddleware, peripheralController.getOne);
 router.put("/peripherals/:id", authMiddleware, peripheralController.update);

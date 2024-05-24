@@ -1,8 +1,11 @@
 .content {
-    display: flex;
-    flex-direction: row;
-    gap: 20px; 
-  }
-  .table{
-    max-width: 1030px;
-  }
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.spinerCon {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
