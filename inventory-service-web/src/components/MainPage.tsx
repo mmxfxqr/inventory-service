@@ -24,7 +24,7 @@ const MainPage: FC = () => {
     if (localStorage.getItem("token")) {
       userStore.checkAuth();
     }
-  }, [userStore]);
+  }, []);
 
   async function getUsers() {
     try {

@@ -1,15 +1,11 @@
 import { observer } from "mobx-react-lite";
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import NavigateBlock from "./NavigateBlock";
 import { Context } from "../main";
-import {
-  Theme,
-  ThemeContext,
-} from "../services/ThemeProvider/lib/ThemeContext";
-import s from "../styles/Components.module.css";
-import { Button, Spinner, Table } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Theme, ThemeContext } from "../services/ThemeProvider/lib/ThemeContext";
+import s from "../styles/Computers.module.css";
+import { Button, Spinner, Table, FormControl } from "react-bootstrap";
 import LoginForm from "./LoginForm";
 import ToastAlert from "./ToastAlert";
 
@@ -17,14 +13,25 @@ const Computers: FC = () => {
   const { computersStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
   const { userStore } = useContext(Context);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       userStore.checkAuth();
     }
-  }, [userStore]);
+  }, []);
+
   useEffect(() => {
     computersStore.fetchComputers();
   }, [computersStore]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredComputers = computersStore.computers.filter((computer) =>
+    computer.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (userStore.isLoading) {
     return (
@@ -33,6 +40,7 @@ const Computers: FC = () => {
       </div>
     );
   }
+
   if (!userStore.isAuth) {
     return (
       <div>
@@ -40,7 +48,9 @@ const Computers: FC = () => {
       </div>
     );
   }
+
   const tableVariant = theme === Theme.DARK ? "dark" : "light";
+  const searchClass = theme === Theme.DARK ? s.searchDark : s.searchLight;
 
   return (
     <div>
@@ -48,7 +58,19 @@ const Computers: FC = () => {
       <div className={s.content}>
         <NavigateBlock />
         <div className="container">
-          <h2>Computers</h2>
+          <div className={s.headerCon}>
+            <h2 className={s.titleHead}>Computers</h2>
+            <div className={s.searchContainer}>
+              <FormControl
+                type="search"
+                className={`mr-2 ${searchClass}`}
+                aria-label="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                style={{ maxWidth: "200px" }}
+              />
+            </div>
+          </div>
           <Table
             striped
             bordered
@@ -70,7 +92,7 @@ const Computers: FC = () => {
               </tr>
             </thead>
             <tbody>
-              {computersStore.computers.map((computer) => {
+              {filteredComputers.map((computer) => {
                 const processor =
                   computer.components.find((comp) => comp.type === "Processor")
                     ?.name || "N/A";

@@ -1,35 +1,46 @@
 import { observer } from "mobx-react-lite";
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import NavigateBlock from "./NavigateBlock";
 import { Context } from "../main";
-import {
-  Theme,
-  ThemeContext,
-} from "../services/ThemeProvider/lib/ThemeContext";
+import { Theme, ThemeContext } from "../services/ThemeProvider/lib/ThemeContext";
 import s from "../styles/Components.module.css";
-import { Button, Spinner, Table } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Spinner, Table, FormControl } from "react-bootstrap";
 import LoginForm from "./LoginForm";
 import ToastAlert from "./ToastAlert";
+
 const Components: FC = () => {
   const { componentsStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
   const { userStore } = useContext(Context);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       userStore.checkAuth();
     }
-  }, [userStore]);
+  }, []);
+
   useEffect(() => {
     componentsStore.fetchComponents();
   }, [componentsStore]);
-  
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredComponents = componentsStore.components.filter((component) =>
+    component.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (userStore.isLoading) {
-    return <div className={s.spinerCon}>
-      <Spinner animation="border" />
-    </div>
+    return (
+      <div className={s.spinerCon}>
+        <Spinner animation="border" />
+      </div>
+    );
   }
+
   if (!userStore.isAuth) {
     return (
       <div>
@@ -37,14 +48,29 @@ const Components: FC = () => {
       </div>
     );
   }
+
   const tableVariant = theme === Theme.DARK ? "dark" : "light";
+  const searchClass = theme === Theme.DARK ? s.searchDark : s.searchLight;
+
   return (
     <div>
       <NavBar />
-      <div className={` ${s.content}`}>
+      <div className={s.content}>
         <NavigateBlock />
         <div className="container">
-          <h2>Components</h2>
+          <div className={s.headerCon}>
+            <h2 className={s.titleHead}>Components</h2>
+            <div className={s.searchContainer}>
+              <FormControl
+                type="search"
+                className={`mr-2 ${searchClass}`}
+                aria-label="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                style={{ maxWidth: "200px" }}
+              />
+            </div>
+          </div>
           <Table
             striped
             bordered
@@ -60,7 +86,7 @@ const Components: FC = () => {
               </tr>
             </thead>
             <tbody>
-              {componentsStore.components.map((component) => (
+              {filteredComponents.map((component) => (
                 <tr key={component._id}>
                   <td>{component._id}</td>
                   <td>{component.name}</td>
@@ -71,7 +97,7 @@ const Components: FC = () => {
           </Table>
         </div>
       </div>
-      <ToastAlert/>
+      <ToastAlert />
     </div>
   );
 };

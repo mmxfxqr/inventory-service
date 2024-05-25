@@ -4,7 +4,6 @@ import { IUser } from "../services/Auth/User";
 import AuthService from "../services/Auth/AuthService";
 import axios from "axios";
 import { AuthResponse } from "../services/Auth/AuthResponse";
-import { useNavigate } from "react-router-dom";
 
 export default class UserStore {
   user = {} as IUser;
@@ -74,7 +73,6 @@ export default class UserStore {
       const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
         withCredentials: true,
       });
-      console.log(response);
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);

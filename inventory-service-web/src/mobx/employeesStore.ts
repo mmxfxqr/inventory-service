@@ -11,7 +11,7 @@ export default class EmployeeStore {
         this.employees = employees;
       }
     
-      async fetchWorkplaces() {
+      async fetchEmployees() {
         try {
           const response = await EmployeeService.getEmployees();
           this.setEmployees(response.data);

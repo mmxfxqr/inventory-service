@@ -1,11 +1,42 @@
 .content {
-    display: flex;
-    flex-direction: row;
-    gap: 20px; 
-  }
-  .spinerCon{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.spinerCon {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end; /* This will align the search input to the bottom */
+}
+
+.searchDark {
+  background-color: #333 !important;
+  color: #fff !important;
+}
+
+.searchLight {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.headerCon {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* This will align all children to the bottom */
+}
+
+.table {
+  margin-top: 10px;
+}
+
+.titleHead {
+  margin-bottom: 0px !important;
+}

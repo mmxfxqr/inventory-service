@@ -1,14 +1,12 @@
 import { observer } from "mobx-react-lite";
-import React, { FC, useContext, useEffect } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import NavigateBlock from "./NavigateBlock";
-import s from "../styles/Workplaces.module.css";
 import { Context } from "../main";
-import {
-  Theme,
-  ThemeContext,
-} from "../services/ThemeProvider/lib/ThemeContext";
-import { Spinner, Table } from "react-bootstrap";
+import { ThemeContext, Theme } from "../services/ThemeProvider/lib/ThemeContext";
+import { Spinner, Table, FormControl } from "react-bootstrap";
+import s from "../styles/Workplaces.module.css";
+import { useNavigate } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import ToastAlert from "./ToastAlert";
 
@@ -16,14 +14,26 @@ const Workplaces: FC = () => {
   const { workplacesStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
   const { userStore } = useContext(Context);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       userStore.checkAuth();
     }
-  }, [userStore]);
+  }, []);
+
   useEffect(() => {
     workplacesStore.fetchWorkplaces();
   }, [workplacesStore]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredWorkplaces = workplacesStore.workplaces.filter(
+    (workplace) =>
+      workplace.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (userStore.isLoading) {
     return (
@@ -40,6 +50,7 @@ const Workplaces: FC = () => {
     );
   }
   const tableVariant = theme === Theme.DARK ? "dark" : "light";
+  const searchClass = theme === Theme.DARK ? s.searchDark : s.searchLight;
 
   return (
     <div>
@@ -47,7 +58,19 @@ const Workplaces: FC = () => {
       <div className={` ${s.content}`}>
         <NavigateBlock />
         <div className="container">
-          <h2>Workplaces</h2>
+          <div className={s.headerCon}>
+            <h2 className={s.tittleHead}>Workplaces</h2>
+            <div className={s.searchContainer}>
+              <FormControl
+                type="search"
+                className={`mr-2 ${searchClass}`}
+                aria-label="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                style={{ maxWidth: "200px" }}
+              />
+            </div>
+          </div>
           <Table
             striped
             bordered
@@ -63,7 +86,7 @@ const Workplaces: FC = () => {
               </tr>
             </thead>
             <tbody>
-              {workplacesStore.workplaces.map((workplace) => (
+              {filteredWorkplaces.map((workplace) => (
                 <tr key={workplace._id}>
                   <td>{workplace._id}</td>
                   <td>{workplace.name}</td>
