@@ -57,7 +57,7 @@ router.put("/components/:id", authMiddleware, componentController.update);
 router.delete("/components/:id", authMiddleware, componentController.delete);
 
 // Peripheral routes
-router.post("/  ", authMiddleware, peripheralController.create);
+router.post("/peripherals", authMiddleware, peripheralController.create);
 router.get("/peripherals", authMiddleware, peripheralController.getAll);
 router.get("/peripherals/:id", authMiddleware, peripheralController.getOne);
 router.put("/peripherals/:id", authMiddleware, peripheralController.update);
