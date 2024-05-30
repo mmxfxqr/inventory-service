@@ -4,8 +4,8 @@ import NavBar from "./NavBar";
 import NavigateBlock from "./NavigateBlock";
 import { Context } from "../main";
 import {
-  ThemeContext,
   Theme,
+  ThemeContext,
 } from "../services/ThemeProvider/lib/ThemeContext";
 import {
   Spinner,
@@ -22,11 +22,17 @@ import deleteBtn from "../assets/delete.svg";
 import add from "../assets/add.svg";
 import edit from "../assets/edit.svg";
 
+interface FormState {
+  _id: string;
+  name: string;
+  department: string;
+}
+
 const Workplaces: FC = () => {
   const { workplacesStore, departmentsStore, userStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
   const [searchTerm, setSearchTerm] = useState("");
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormState>({
     _id: "",
     name: "",
     department: "",
@@ -38,7 +44,7 @@ const Workplaces: FC = () => {
     if (localStorage.getItem("token")) {
       userStore.checkAuth();
     }
-  }, []);
+  }, [userStore]);
 
   useEffect(() => {
     workplacesStore.fetchWorkplaces();
@@ -50,9 +56,10 @@ const Workplaces: FC = () => {
   };
 
   const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<any>
   ) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormState({...formState, [name]: value });
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -73,9 +80,6 @@ const Workplaces: FC = () => {
     setFormState({ _id: "", name: "", department: "" });
     setIsEditing(false);
     setShowModal(false);
-
-    // Перезагрузить страницу после успешного создания или обновления
-    // Это отправит GET запрос для получения обновленных данных
     window.location.reload();
   };
 
@@ -145,7 +149,7 @@ const Workplaces: FC = () => {
                 onClick={handleAdd}
                 style={{ marginLeft: "5px" }}
               >
-                <img src={add} className={s.addImg} />
+                <img src={add} className={s.addImg} alt="Add" />
               </Button>
             </div>
           </div>
@@ -176,13 +180,17 @@ const Workplaces: FC = () => {
                       onClick={() => handleEdit(workplace)}
                       className={s.btnEdit}
                     >
-                      <img src={edit} className={s.editBtn} />
+                      <img src={edit} className={s.editBtn} alt="Edit" />
                     </Button>
                     <Button
                       variant="danger"
                       onClick={() => handleDelete(workplace._id)}
                     >
-                      <img src={deleteBtn} className={s.deleteBtn} />
+                      <img
+                        src={deleteBtn}
+                        className={s.deleteBtn}
+                        alt="Delete"
+                      />
                     </Button>
                   </td>
                 </tr>
@@ -205,9 +213,9 @@ const Workplaces: FC = () => {
                 type="text"
                 name="name"
                 value={formState.name}
+                className={theme === Theme.DARK ? s.inputDark : ""}
                 onChange={handleFormChange}
                 required
-                className={theme === Theme.DARK ? s.inputDark : ""}
               />
             </Form.Group>
             <Form.Group controlId="formDepartment">
