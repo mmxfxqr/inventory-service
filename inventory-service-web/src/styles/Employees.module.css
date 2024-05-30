@@ -14,7 +14,7 @@
 .searchContainer {
   display: flex;
   justify-content: flex-end;
-  align-items: flex-end; /* This will align the search input to the bottom */
+  align-items: center;
 }
 
 .searchDark {
@@ -30,7 +30,7 @@
 .headerCon {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* This will align all children to the bottom */
+  align-items: center;
 }
 
 .table {
@@ -40,3 +40,27 @@
 .tittleHead {
   margin-bottom: 0px !important;
 }
+
+.addImg {
+  width: 20px;
+  height: 20px;
+}
+
+.editBtn {
+  width: 20px;
+  height: 20px;
+}
+
+.deleteBtn {
+  width: 20px;
+  height: 20px;
+}
+
+.actionsColumn {
+  display: flex;
+}
+
+.btnEdit {
+  margin-right: 15px;
+}
+

@@ -55,9 +55,7 @@ const Workplaces: FC = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleFormChange = (
-    e: React.ChangeEvent<any>
-  ) => {
+  const handleFormChange = (e: React.ChangeEvent<any>) => {
     const { name, value } = e.target;
     setFormState({...formState, [name]: value });
   };
@@ -76,11 +74,12 @@ const Workplaces: FC = () => {
         formState.department
       );
     }
-    await departmentsStore.fetchDepartments();
     setFormState({ _id: "", name: "", department: "" });
     setIsEditing(false);
     setShowModal(false);
-    window.location.reload();
+    // Перезагружаем данные рабочих мест и отделов после добавления или обновления
+    workplacesStore.fetchWorkplaces();
+    departmentsStore.fetchDepartments();
   };
 
   const handleEdit = (workplace) => {
@@ -91,6 +90,8 @@ const Workplaces: FC = () => {
 
   const handleDelete = async (id) => {
     await workplacesStore.deleteWorkplace(id);
+    // Перезагружаем данные рабочих мест после удаления
+    workplacesStore.fetchWorkplaces();
   };
 
   const handleAdd = () => {
