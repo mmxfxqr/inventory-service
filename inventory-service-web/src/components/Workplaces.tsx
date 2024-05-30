@@ -3,8 +3,18 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import NavigateBlock from "./NavigateBlock";
 import { Context } from "../main";
-import { ThemeContext, Theme } from "../services/ThemeProvider/lib/ThemeContext";
-import { Spinner, Table, FormControl, Button, Modal, Form } from "react-bootstrap";
+import {
+  ThemeContext,
+  Theme,
+} from "../services/ThemeProvider/lib/ThemeContext";
+import {
+  Spinner,
+  Table,
+  FormControl,
+  Button,
+  Modal,
+  Form,
+} from "react-bootstrap";
 import s from "../styles/Workplaces.module.css";
 import LoginForm from "./LoginForm";
 import ToastAlert from "./ToastAlert";
@@ -16,7 +26,11 @@ const Workplaces: FC = () => {
   const { workplacesStore, departmentsStore, userStore } = useContext(Context);
   const { theme } = useContext(ThemeContext);
   const [searchTerm, setSearchTerm] = useState("");
-  const [formState, setFormState] = useState({ _id: "", name: "", department: "" });
+  const [formState, setFormState] = useState({
+    _id: "",
+    name: "",
+    department: "",
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -35,23 +49,35 @@ const Workplaces: FC = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
- const handleFormSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (isEditing) {
-    await workplacesStore.updateWorkplace(formState._id, formState.name, formState.department);
-  } else {
-    await workplacesStore.createWorkplace(formState.name, formState.department);
-  }
-  await departmentsStore.fetchDepartments();
-  setFormState({ _id: "", name: "", department: "" });
-  setIsEditing(false);
-  setShowModal(false);
-};
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isEditing) {
+      await workplacesStore.updateWorkplace(
+        formState._id,
+        formState.name,
+        formState.department
+      );
+    } else {
+      await workplacesStore.createWorkplace(
+        formState.name,
+        formState.department
+      );
+    }
+    await departmentsStore.fetchDepartments();
+    setFormState({ _id: "", name: "", department: "" });
+    setIsEditing(false);
+    setShowModal(false);
 
+    // Перезагрузить страницу после успешного создания или обновления
+    // Это отправит GET запрос для получения обновленных данных
+    window.location.reload();
+  };
 
   const handleEdit = (workplace) => {
     setFormState(workplace);
@@ -73,8 +99,8 @@ const Workplaces: FC = () => {
     setShowModal(false);
   };
 
-  const filteredWorkplaces = workplacesStore.workplaces.filter(
-    (workplace) => workplace.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredWorkplaces = workplacesStore.workplaces.filter((workplace) =>
+    workplace.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (userStore.isLoading) {
@@ -167,7 +193,9 @@ const Workplaces: FC = () => {
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton className={modalContentClass}>
-          <Modal.Title>{isEditing ? "Edit Workplace" : "Add Workplace"}</Modal.Title>
+          <Modal.Title>
+            {isEditing ? "Edit Workplace" : "Add Workplace"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body className={modalContentClass}>
           <Form onSubmit={handleFormSubmit}>
@@ -200,7 +228,11 @@ const Workplaces: FC = () => {
                 ))}
               </Form.Control>
             </Form.Group>
-            <Button variant="success" type="submit" style={{ marginTop: "10px" }}>
+            <Button
+              variant="success"
+              type="submit"
+              style={{ marginTop: "10px" }}
+            >
               {isEditing ? "Update" : "Add"}
             </Button>
           </Form>
