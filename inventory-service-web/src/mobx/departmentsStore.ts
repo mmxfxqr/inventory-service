@@ -12,7 +12,7 @@ export default class DepartmentsStore {
   setDepartments(departments: IDepartment[]) {
     this.departments = departments;
   }
-
+  
   async fetchDepartments() {
     try {
       const response = await DepartmentService.getDepartments();
