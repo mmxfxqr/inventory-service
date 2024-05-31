@@ -108,6 +108,7 @@ const Employees: FC = () => {
 
   const tableVariant = theme === Theme.DARK ? "dark" : "light";
   const searchClass = theme === Theme.DARK ? s.searchDark : s.searchLight;
+  const modalContentClass = theme === Theme.DARK ? s.modalDark : s.modalLight;
 
   return (
     <div>
@@ -163,10 +164,10 @@ const Employees: FC = () => {
         </div>
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className={modalContentClass}>
           <Modal.Title>{isEditing ? "Edit Employee" : "Add Employee"}</Modal.Title>
         </Modal.Header>
-        <Modal.Body className={theme === Theme.DARK ? s.modalDark : s.modalLight}>
+        <Modal.Body className={modalContentClass}>
           <Form onSubmit={handleFormSubmit}>
             <Form.Group controlId="employeeName">
               <Form.Label>Name</Form.Label>
